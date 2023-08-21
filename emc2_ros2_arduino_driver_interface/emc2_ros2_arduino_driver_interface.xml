@@ -1,0 +1,9 @@
+<library path="emc2_ros2_arduino_driver_interface">
+  <class name="emc2_ros2_arduino_driver_interface/EMC2ArduinoHardware"
+         type="emc2_ros2_arduino_driver_interface::EMC2ArduinoHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      The ros2 hardware interface for the EMC2_arduino_driver module
+    </description>
+  </class>
+</library>

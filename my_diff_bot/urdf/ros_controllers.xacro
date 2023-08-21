@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="my_diff_bot" xmlns:xacro="http://ros.org/wiki/xacro">
+    
+    <xacro:include filename="$(find my_diff_bot)/urdf/transmission_macros.xacro"/>
+
+
+    <ros2_control name="my_diff_bot_emc2_ros2_control" type="system">
+
+      <hardware>
+        <plugin>emc2_ros2_arduino_driver_interface/EMC2ArduinoHardware</plugin>
+        <param name="motorB_wheel_name">left_wheel_joint</param>
+        <param name="motorA_wheel_name">right_wheel_joint</param>
+        <param name="port">/dev/ttyUSB0</param>
+      </hardware>
+
+        <xacro:insert_wheel_transmission joint_name="left_wheel_joint"/>
+        <xacro:insert_wheel_transmission joint_name="right_wheel_joint"/>
+
+    </ros2_control>
+
+
+</robot>

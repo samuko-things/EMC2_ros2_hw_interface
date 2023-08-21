@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot name="my_diff_bot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:macro name="insert_box_with_fillet" params="x y z size_x size_y size_z fillet_radius material">
+            <!-- logitudinal box -->
+            <visual>
+                <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${size_x} ${size_y-(2*fillet_radius)} ${size_z}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+            <!-- lateral box -->
+            <visual>
+                <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${size_x-(2*fillet_radius)} ${size_y} ${size_z}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+            <!-- cylinder1 -->
+            <visual>
+                <origin xyz="${x+((size_x/2)-fillet_radius)} ${y+((size_y/2)-fillet_radius)} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${size_z}" radius="${fillet_radius}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+            <!-- cylinder2 -->
+            <visual>
+                <origin xyz="${x+((size_x/2)-fillet_radius)} ${y-((size_y/2)-fillet_radius)} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${size_z}" radius="${fillet_radius}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+            <!-- cylinder3 -->
+            <visual>
+                <origin xyz="${x-((size_x/2)-fillet_radius)} ${y+((size_y/2)-fillet_radius)} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${size_z}" radius="${fillet_radius}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+            <!-- cylinder4 -->
+            <visual>
+                <origin xyz="${x-((size_x/2)-fillet_radius)} ${y-((size_y/2)-fillet_radius)} ${z}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${size_z}" radius="${fillet_radius}"/>
+                </geometry>
+                <material name="${material}"/>
+            </visual>
+    </xacro:macro>
+
+
+
+    <xacro:macro name="insert_drive_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.06"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+           <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.065" length="0.06"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.2" length="0.06" radius="0.065">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </xacro:macro>
+
+
+    <xacro:macro name="insert_wheel_rim">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.07 0.0605"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+            <geometry>
+                <box size="0.01 0.07 0.0605"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${-pi/4}"/>
+            <geometry>
+                <box size="0.01 0.07 0.0605"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 ${pi/4}"/>
+            <geometry>
+                <box size="0.01 0.07 0.0605"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+    </xacro:macro>
+
+    
+</robot>
