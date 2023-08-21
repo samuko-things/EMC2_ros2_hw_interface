@@ -50,14 +50,7 @@ install(
   DIRECTORY hardware/include/
   DESTINATION include/emc2_ros2_arduino_driver_interface
 )
-# install(
-#   DIRECTORY description/launch description/ros2_control description/urdf description/rviz
-#   DESTINATION share/emc2_ros2_arduino_driver_interface
-# )
-# install(
-#   DIRECTORY bringup/launch bringup/config
-#   DESTINATION share/emc2_ros2_arduino_driver_interface
-# )
+
 install(TARGETS emc2_ros2_arduino_driver_interface
   EXPORT export_emc2_ros2_arduino_driver_interface
   ARCHIVE DESTINATION lib
