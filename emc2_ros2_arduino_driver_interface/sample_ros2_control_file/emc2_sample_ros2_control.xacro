@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+    
+    <xacro:include filename="transmission_macros.xacro"/>
+
+    <ros2_control name="emc2_ros2_control_diff_drive" type="system">
+
+      <hardware>
+        <plugin>emc2_ros2_arduino_driver_interface/EMC2ArduinoHardware</plugin>
+        <param name="motorB_wheel_name">left_wheel_joint</param>
+        <param name="motorA_wheel_name">right_wheel_joint</param>
+        <param name="port">/dev/ttyUSB0</param>
+      </hardware>
+
+        <xacro:insert_wheel_transmission joint_name="left_wheel_joint"/>
+        <xacro:insert_wheel_transmission joint_name="right_wheel_joint"/>
+
+    </ros2_control>
+
+
+</robot>
