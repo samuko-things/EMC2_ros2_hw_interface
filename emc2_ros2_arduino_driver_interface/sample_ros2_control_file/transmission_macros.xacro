@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="insert_wheel_transmission" params="joint_name">
+        <joint name="${joint_name}">
+            <command_interface name="velocity">
+                <param name="min">-7.0</param>
+                <param name="max">7.0</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+        </joint>
+    </xacro:macro>
+
+
+</robot>
