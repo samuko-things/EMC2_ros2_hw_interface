@@ -5,9 +5,6 @@ This is a child project of the Easy Motor Control (EMC2) project. This is to be 
 
 
 ### Quick Demo
-
-![Demo Video](https://github.com/samuko-things/EMC2_ros2_hw_interface/blob/main/docs/emc2_hw_test.gif)
-
 ![Local Demo Video](./docs/emc2_hw_test.gif)
 
 
