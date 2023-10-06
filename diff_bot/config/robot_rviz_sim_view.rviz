@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 549
@@ -80,7 +81,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        face_link:
+        left_rim:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -90,7 +91,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wheel_rim:
+        right_rim:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -100,7 +101,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wheel_rim:
+        sonar:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -124,19 +125,19 @@ Visualization Manager:
           Value: false
         chassis:
           Value: false
-        face_link:
-          Value: false
+        left_rim:
+          Value: true
         left_wheel:
           Value: true
-        left_wheel_rim:
-          Value: false
         odom:
+          Value: true
+        right_rim:
           Value: true
         right_wheel:
           Value: true
-        right_wheel_rim:
+        sonar:
           Value: false
-      Marker Scale: 0.5
+      Marker Scale: 0.30000001192092896
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -144,17 +145,17 @@ Visualization Manager:
       Tree:
         odom:
           base_link:
+            castor_wheel:
+              {}
             chassis:
-              castor_wheel:
+              sonar:
                 {}
-              face_link:
+            left_wheel:
+              left_rim:
                 {}
-              left_wheel:
-                left_wheel_rim:
-                  {}
-              right_wheel:
-                right_wheel_rim:
-                  {}
+            right_wheel:
+              right_rim:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -203,7 +204,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.794579029083252
+      Distance: 1.6024792194366455
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -218,10 +219,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4503973424434662
+      Pitch: 0.3553973436355591
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6803959012031555
+      Yaw: 0.41039609909057617
     Saved: ~
 Window Geometry:
   Displays:

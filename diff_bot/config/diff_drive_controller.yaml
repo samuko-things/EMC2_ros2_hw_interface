@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 40  # Hz
+    update_rate: 60  # Hz
     # use_sim_time: true
 
     joint_state_broadcaster:
@@ -14,9 +14,9 @@ diff_drive_controller:
     left_wheel_names: ["left_wheel_joint"]
     right_wheel_names: ["right_wheel_joint"]
 
-    wheel_separation: 0.3
-    #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-    wheel_radius: 0.0325 # diameter 0.065m
+    wheel_separation: 0.214
+    wheels_per_side: 1  # if 2 -> skid steer and both are controlled by 1 signal
+    wheel_radius: 0.034 # diameter 0.068m
 
     wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0

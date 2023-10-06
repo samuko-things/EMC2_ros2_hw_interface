@@ -18,11 +18,7 @@ from launch_ros.descriptions import ParameterValue
 
 def generate_launch_description():
     # delare any path variable
-    my_pkg_path = get_package_share_directory('my_diff_bot')
-    
-    rviz_config_file = os.path.join(my_pkg_path,'config','robot_rviz_sim_view.rviz')
-
-  
+    my_pkg_path = get_package_share_directory('diff_bot')  
   
     use_sim_time = 'false'
     use_ros2_control = 'true'
@@ -33,44 +29,11 @@ def generate_launch_description():
             ), 
             launch_arguments={'use_sim_time': use_sim_time, 'use_ros2_control': use_ros2_control}.items()
     )
-    
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        output='screen'
-    )
-    
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        arguments=['-d', rviz_config_file],
-        output='screen'
-    )
-
-
-
-    # robot_description_content = Command(
-    #     [
-    #         PathJoinSubstitution([FindExecutable(name="xacro")]),
-    #         " ",
-    #         PathJoinSubstitution(
-    #             [FindPackageShare("my_diff_bot"), "urdf", "urdf_description.xacro"]
-    #         ),
-    #     ]
-    # )
 
     robot_description_content = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
     robot_description_xml = ParameterValue(robot_description_content, value_type=str)
 
     robot_description = {"robot_description": robot_description_xml}
-
-    # robot_controllers = PathJoinSubstitution(
-    #     [
-    #         FindPackageShare("my_diff_bot"),
-    #         "config",
-    #         "diff_drive_controller.yaml",
-    #     ]
-    # )
 
     robot_controllers = os.path.join(my_pkg_path,'config','diff_drive_controller.yaml')
 
@@ -79,10 +42,6 @@ def generate_launch_description():
         executable="ros2_control_node",
         parameters=[robot_description, robot_controllers]
     )
-
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
-
-
 
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
@@ -94,30 +53,17 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=["diff_drive_controller"],
-    )
+    )    
 
-    # delayed_diff_drive_controller_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessStart(
-    #         target_action=controller_manager,
-    #         on_start=[diff_drive_controller_spawner],
-    #     )
-    # )
 
-    
+    # Delay controller manager for some time for full load up
+    delay_controller_manager_for_some_time = TimerAction(period=4.0, actions=[controller_manager])
 
-    delay_joint_state_broadcaster_spawner = RegisterEventHandler(
+    # Delay start of joint_state_broadcaster until controller_manager starts
+    delay_joint_state_broadcaster_spawner_until_controller_manager_starts = RegisterEventHandler(
         event_handler=OnProcessStart(
             target_action=controller_manager,
             on_start=[joint_state_broadcaster_spawner],
-        )
-    )
-
-
-    # Delay rviz start after `joint_state_broadcaster`
-    delay_rviz_after_diff_drive_controller_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=diff_drive_controller_spawner,
-            on_exit=[rviz_node],
         )
     )
 
@@ -130,20 +76,16 @@ def generate_launch_description():
     )
 
 
-
      # Create the launch description and populate
     ld = LaunchDescription()
     
 
     # Add the nodes to the launch description
     ld.add_action(rsp)
-    # ld.add_action(rviz_node)
-    # ld.add_action(joint_state_publisher_node)
 
     if use_ros2_control=='true':
-        ld.add_action(delayed_controller_manager)
-        ld.add_action(delay_joint_state_broadcaster_spawner)
-        ld.add_action(delay_rviz_after_diff_drive_controller_spawner)
+        ld.add_action(delay_controller_manager_for_some_time)
+        ld.add_action(delay_joint_state_broadcaster_spawner_until_controller_manager_starts)
         ld.add_action(delay_diff_drive_controller_spawner_after_joint_state_broadcaster_spawner)
 
     
