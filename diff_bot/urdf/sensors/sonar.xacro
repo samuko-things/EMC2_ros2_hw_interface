@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <!-- <xacro:arg name="sonar_visual"   default="false"/> -->
+    <!-- <xacro:property name="deg2rad" value="0.017460317"/>
+    <xacro:property name="scan_angle" value="1"/> -->
+
+
+    <xacro:macro name="insert_sonar" params="base_name parent_name x y z mass min_range max_range resolution visualize">
+
+        <joint name="${base_name}_joint" type="fixed">
+            <parent link="${parent_name}"/>
+            <child link="${base_name}"/>
+            <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${base_name}">
+            <visual>
+                <origin xyz="0 0.0125 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="0.0075" length="0.01"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0.0125 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="0.0075" length="0.01"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 -0.0125 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="0.0075" length="0.01"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <collision>
+                <origin xyz="0 -0.0125 0" rpy="0 ${pi/2} 0"/>
+                <geometry>
+                    <cylinder radius="0.0075" length="0.01"/>
+                </geometry>
+            </collision>
+
+            <xacro:inertial_cylinder mass="${mass}" length="0.01" radius="0.075">
+                <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
+            </xacro:inertial_cylinder>
+        </link>
+
+        <gazebo reference="${base_name}">
+            <material>Gazebo/Blue</material>
+
+            <sensor name="${base_name}" type="ray">
+                <always_on>true</always_on>
+                <visualize>${visualize}</visualize>
+                <pose>0.0 0 0.0 0 0 0</pose>
+                <update_rate>5</update_rate>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>20</samples>
+                            <resolution>1</resolution> 
+                            <min_angle>${-pi/90}</min_angle>
+                            <max_angle>${pi/90}</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>20</samples>
+                            <resolution>1</resolution> 
+                            <min_angle>${-pi/150}</min_angle>
+                            <max_angle>${pi/150}</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>${min_range}</min>
+                        <max>${max_range}</max>
+                        <resolution>${resolution}</resolution>
+                    </range>
+                </ray>
+        
+                <plugin name="${base_name}_plugin" filename="libgazebo_ros_ray_sensor.so">
+                    <ros>
+                        <namespace>${base_name}</namespace>
+                        <remapping>~/out:=range</remapping>
+                    </ros>
+                    <output_type>sensor_msgs/Range</output_type>
+                    <radiation_type>ultrasound</radiation_type>
+                    <frame_name>${base_name}</frame_name>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+
+  
+</robot>
+
+
+
+
+

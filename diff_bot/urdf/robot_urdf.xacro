@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="diff_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- ########### ARGUMENTS ######################### -->
+    <xacro:arg name="use_ros2_control" default="true"/>
+    <!-- ############################################### -->
+
+
+    <xacro:include filename="color_macros.xacro" />
+    <xacro:include filename="inertia_macros.xacro" />
+
+    <xacro:include filename="robot_core.xacro" />
+
+    <xacro:if value="$(arg use_ros2_control)">
+        <xacro:include filename="controllers/emc2_hw_ros2_control.xacro" />
+    </xacro:if>
+    <xacro:unless value="$(arg use_ros2_control)">
+        <!-- <xacro:include filename="controllers/gazebo_control.xacro" /> -->
+    </xacro:unless>
+    
+</robot>

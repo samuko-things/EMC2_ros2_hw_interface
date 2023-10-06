@@ -34,8 +34,8 @@ def generate_launch_description():
 
     
     # Process the URDF file
-    pkg_path = os.path.join(get_package_share_directory('my_diff_bot'))
-    xacro_file = os.path.join(pkg_path,'urdf','urdf_description.xacro')
+    pkg_path = os.path.join(get_package_share_directory('diff_bot'))
+    xacro_file = os.path.join(pkg_path,'urdf','robot_urdf.xacro')
     
     # robot_description_config = xacro.process_file(xacro_file)
     # robot_description_xml = robot_description_config.toxml()

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <xacro:include filename="other_parts/box_with_fillet_macro.xacro"/>
+    <xacro:include filename="other_parts/drive_wheel_macro.xacro"/>
+    <xacro:include filename="other_parts/drive_wheel_rim_macro.xacro"/>
+
+    <xacro:include filename="sensors/sonar.xacro"/>
+
+    <xacro:property name="chassis_length" value="0.25"/>
+    <xacro:property name="chassis_width" value="0.19"/>
+    <xacro:property name="chassis_height" value="0.07"/>
+    <xacro:property name="chassis_mass" value="3.0"/>
+
+    <xacro:property name="wheel_seperation" value="0.214"/>
+    <xacro:property name="wheel_radius" value="0.034"/>
+    <xacro:property name="wheel_width" value="0.026"/>
+    <xacro:property name="wheel_mass" value="0.08"/>
+
+    <xacro:property name="castor_wheel_radius" value="0.025"/>
+    <xacro:property name="castor_wheel_mass" value="0.04"/>
+
+    
+
+
+    <!-- BASE LINK -->
+
+    <!-- <base joint/> -->
+    <link name="base_link">  
+    </link>
+
+    <!-- ################# -->
+
+
+
+
+
+
+
+
+    <!-- CHASSIS LINK -->
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="0 0 ${(wheel_radius*2)+0.002}"/>
+    </joint>
+
+    <link name="chassis">
+        <xacro:insert_box_with_fillet x="${-chassis_length/6}" y="0" z="${chassis_height/2}" 
+            size_x="${chassis_length}" size_y="${chassis_width}" size_z="${chassis_height}" 
+            fillet_radius="0.05" material="orange"/>
+        <collision>
+           <origin xyz="${-chassis_length/6} 0 ${chassis_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
+            <origin xyz="${-chassis_length/6} 0 ${wheel_radius*2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+    <gazebo reference="chassis">
+        <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!--  ########################### -->
+
+
+
+
+
+
+
+
+
+
+    <!-- LEFT DRIVE WHEEL -->
+
+    <xacro:insert_drive_wheel 
+        base_name="left_wheel" 
+        parent_name="base_link" 
+        x="0" y="${wheel_seperation/2}" z="${wheel_radius}"
+        mass="${wheel_mass}"
+        radius="${wheel_radius}"
+        thickness="${wheel_width}"/>
+  
+    <xacro:insert_drive_wheel_rim
+        base_name="left_rim" 
+        parent_name="left_wheel" 
+        x="0" y="0" z="0.001"
+        radius="${wheel_radius}"
+        thickness="${wheel_width}"
+        spoke_width="0.005"/>
+
+    <!-- ############################# -->
+
+
+
+
+
+
+
+
+    <!-- RIGHT DRIVE WHEEL -->
+
+    <xacro:insert_drive_wheel 
+        base_name="right_wheel" 
+        parent_name="base_link" 
+        x="0" y="${-wheel_seperation/2}" z="${wheel_radius}"
+        mass="${wheel_mass}"
+        radius="${wheel_radius}"
+        thickness="${wheel_width}"/>
+
+    <xacro:insert_drive_wheel_rim
+        base_name="right_rim" 
+        parent_name="right_wheel" 
+        x="0" y="0" z="-0.001"
+        radius="${wheel_radius}"
+        thickness="${wheel_width}"
+        spoke_width="0.005"/>
+
+    <!-- ############################# -->
+
+
+
+
+
+
+
+
+
+    <!--  castor WHEEL LINK -->
+
+    <joint name="castor_wheel_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="castor_wheel"/>
+        <origin xyz="${-chassis_length/2} 0 ${castor_wheel_radius}"/>
+    </joint>
+
+
+    <link name="castor_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${castor_wheel_radius}" />
+            </geometry>
+            <material name="silver"/>
+        </visual>
+        <collision>
+           <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${castor_wheel_radius}" />
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="${castor_wheel_mass}" radius="${castor_wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+
+    <gazebo reference="castor_wheel">
+        <mu1>0.001</mu1>
+        <mu2>0.001</mu2>
+        <!-- <kp>1000000.0</kp> -->
+        <!-- <kd>1.0</kd> -->
+        <!-- <fdir1>1 0 0</fdir1> -->
+        <!-- <minDepth>0.01</minDepth> -->
+        <material>Gazebo/Silver</material>
+    </gazebo>
+
+    <!--  ########################### -->
+
+
+
+    <!--  sonar -->
+    <xacro:insert_sonar
+        base_name="sonar" 
+        parent_name="chassis" 
+        x="${(chassis_length/6)*2}" y="0" z="${chassis_height/2}"
+        mass="0.005"
+        min_range="0.02" max_range="3.0"
+        resolution="0.01" visualize="false"/>
+
+</robot>
