@@ -197,18 +197,25 @@ hardware_interface::return_type EMC2ArduinoHardware::read(
     return hardware_interface::return_type::ERROR;
   }
 
-  float motorA_angPos, motorB_angPos;
-  float motorA_angVel, motorB_angVel;
+  try{
 
-  emc2_.getMotorsPos(motorA_angPos, motorB_angPos); // gets angPosA, angPosB
-  emc2_.getMotorsVel(motorA_angVel, motorB_angVel); // gets angVelA, angVelB
+    float motorA_angPos, motorB_angPos;
+    float motorA_angVel, motorB_angVel;
 
-  motorA_.angPos = (double)motorA_angPos;
-  motorB_.angPos = (double)motorB_angPos;
+    emc2_.getMotorsPos(motorA_angPos, motorB_angPos); // gets angPosA, angPosB
+    emc2_.getMotorsVel(motorA_angVel, motorB_angVel); // gets angVelA, angVelB
 
-  motorA_.angVel = (double)motorA_angVel;
-  motorB_.angVel = (double)motorB_angVel;
+    motorA_.angPos = (double)motorA_angPos;
+    motorB_.angPos = (double)motorB_angPos;
 
+    motorA_.angVel = (double)motorA_angVel;
+    motorB_.angVel = (double)motorB_angVel;
+
+  }
+  catch(...){
+
+  }
+  
   return hardware_interface::return_type::OK;
 }
 
