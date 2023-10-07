@@ -7,8 +7,8 @@
 
       <hardware>
         <plugin>emc2_ros2_arduino_driver_interface/EMC2ArduinoHardware</plugin>
-        <param name="motorB_wheel_name">left_wheel_joint</param>
-        <param name="motorA_wheel_name">right_wheel_joint</param>
+        <param name="motorA_wheel_name">left_wheel_joint</param>
+        <param name="motorB_wheel_name">right_wheel_joint</param>
         <param name="port">/dev/ttyUSB0</param>
       </hardware>
 
