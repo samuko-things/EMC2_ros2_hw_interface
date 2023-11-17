@@ -227,12 +227,19 @@ hardware_interface::return_type emc2_ros2_arduino_driver_interface ::EMC2Arduino
     return hardware_interface::return_type::ERROR;
   }
 
-  float motorA_cmdAngVel, motorB_cmdAngVel;
+  try{
 
-  motorA_cmdAngVel = (float)motorA_.cmdAngVel;
-  motorB_cmdAngVel = (float)motorB_.cmdAngVel;
+    float motorA_cmdAngVel, motorB_cmdAngVel;
 
-  emc2_.sendTargetVel(motorA_cmdAngVel, motorB_cmdAngVel); // targetA, targetB
+    motorA_cmdAngVel = (float)motorA_.cmdAngVel;
+    motorB_cmdAngVel = (float)motorB_.cmdAngVel;
+
+    emc2_.sendTargetVel(motorA_cmdAngVel, motorB_cmdAngVel); // targetA, targetB
+
+  }
+  catch(...){
+
+  }
 
   return hardware_interface::return_type::OK;
 }
